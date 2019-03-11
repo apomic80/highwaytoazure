@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using demo.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using demo.Shared;
 
 namespace demo
 {
@@ -41,6 +42,8 @@ namespace demo
             services.AddDefaultIdentity<IdentityUser>()
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddSingleton<IFileSystem, LocalFileSystem>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
