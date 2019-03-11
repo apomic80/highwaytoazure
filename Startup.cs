@@ -55,10 +55,10 @@ namespace demo
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         
             services.AddSession();
-            services.AddDistributedRedisCache(o =>
+            /* services.AddDistributedRedisCache(o =>
             {
                 o.Configuration = Configuration.GetConnectionString("Redis");
-            });
+            });*/
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
