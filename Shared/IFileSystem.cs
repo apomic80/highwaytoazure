@@ -5,6 +5,7 @@ namespace demo.Shared
 {
     public interface IFileSystem
     {
+        string GetRootPath();
         string PathCombine(string path1, string path2);
         bool DirectoryExists(string path);
         void CreateDirectory(string path);

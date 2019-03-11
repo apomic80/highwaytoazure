@@ -14,22 +14,20 @@ namespace demo.Controllers
     public class PhotoController : Controller
     {
         private readonly ApplicationDbContext ctx = null;
-        private readonly IHostingEnvironment env = null;
         private readonly IFileSystem fileSystem = null;
 
         public PhotoController(
             ApplicationDbContext ctx,
-            IHostingEnvironment env,
             IFileSystem fileSystem)
         {
             this.ctx = ctx;
-            this.env = env;
             this.fileSystem = fileSystem;
         }
 
         public async Task<IActionResult> Index() 
         {
-            var model = await this.ctx.Photos.ToListAsync();
+            var model = await this.ctx.Photos
+                .ToListAsync();
             return View(model);
         }
 
@@ -43,7 +41,7 @@ namespace demo.Controllers
         {
             try
             {
-                var uploads = fileSystem.PathCombine(env.WebRootPath, "uploads");
+                var uploads = "uploads";
                 if(!Directory.Exists(uploads))
                 {
                     fileSystem.CreateDirectory(uploads);
@@ -51,7 +49,7 @@ namespace demo.Controllers
                 if (file.Length > 0) {
                     var filePath = fileSystem.PathCombine(uploads, file.FileName);
                     await fileSystem.SaveFile(file, filePath);
-                    model.FileName = "/uploads/" + file.FileName;
+                    model.FileName = filePath;
                 }
                                 
                 ctx.Add(model);

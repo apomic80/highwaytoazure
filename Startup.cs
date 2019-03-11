@@ -43,7 +43,14 @@ namespace demo
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.AddSingleton<IFileSystem, LocalFileSystem>();
+            // services.AddSingleton<IFileSystem, LocalFileSystem>();
+            services.AddSingleton<IFileSystem, AzureBlobFileSystem>(
+                s => new AzureBlobFileSystem(
+                    Configuration["Blob_StorageAccount"],
+                    Configuration["Blob_StorageKey"],
+                    Configuration["Blob_ContainerName"]
+                )
+            );
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

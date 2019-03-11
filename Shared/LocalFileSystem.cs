@@ -1,5 +1,6 @@
 using System.IO;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 
 namespace demo.Shared
@@ -7,14 +8,27 @@ namespace demo.Shared
     public class LocalFileSystem
         : IFileSystem
     {
+        private readonly IHostingEnvironment env = null;
+
+        public LocalFileSystem(
+            IHostingEnvironment env)
+        {
+            this.env = env;
+        }
+
+        public string GetRootPath() 
+        {
+            return string.Empty;
+        }
+
         public void CreateDirectory(string path)
         {
-            Directory.CreateDirectory(path);
+            Directory.CreateDirectory(Path.Combine(env.WebRootPath, path));
         }
 
         public bool DirectoryExists(string path)
         {
-            return Directory.Exists(path);
+            return Directory.Exists(Path.Combine(env.WebRootPath, path));
         }
 
         public string PathCombine(string path1, string path2)
@@ -24,7 +38,7 @@ namespace demo.Shared
 
         public async Task SaveFile(IFormFile file, string filePath)
         {
-            using (var fileStream = new FileStream(filePath, FileMode.Create)) {
+            using (var fileStream = new FileStream(Path.Combine(env.WebRootPath, filePath), FileMode.Create)) {
                 await file.CopyToAsync(fileStream);
             }
         }
