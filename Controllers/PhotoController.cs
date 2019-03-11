@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using demo.Shared;
 
 namespace demo.Controllers
 {
@@ -14,13 +15,16 @@ namespace demo.Controllers
     {
         private readonly ApplicationDbContext ctx = null;
         private readonly IHostingEnvironment env = null;
+        private readonly IFileSystem file = file;
 
         public PhotoController(
             ApplicationDbContext ctx,
-            IHostingEnvironment env)
+            IHostingEnvironment env,
+            IFileSystem file)
         {
             this.ctx = ctx;
             this.env = env;
+            this.file = file;
         }
 
         public async Task<IActionResult> Index() 
