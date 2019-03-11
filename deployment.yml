@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: saronnodemo-deployment
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: v1
+        stage: production
+    spec:
+      containers:
+      - name: saronnodemo
+        image: apomic80.azurecr.io/saronnodemo:v1
+        ports:
+          - containerPort: 80
